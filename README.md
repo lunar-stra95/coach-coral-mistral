@@ -1,73 +1,11 @@
-# Welcome to your Lovable project
+AI Interview Coach Agent
 
-## Project info
+AI Interview Coach Agent is a complete end-to-end project that leverages Coral Protocol, Mistral AI, ElevenLabs, and Lovable.dev to create a multi-agent system for interview practice. The platform simulates a real interview environment where candidates can interact with an AI interviewer that asks questions using natural human-like voice, analyzes their responses, and provides personalized improvement suggestions. The system is built around a secure multi-agent architecture orchestrated by Coral Protocol, ensuring seamless communication between the frontend and backend agents.
 
-**URL**: https://lovable.dev/projects/fe9f31fd-b5e7-446c-9d0a-416fa3b56ab5
+The project features a web-based frontend built with Lovable.dev that includes a landing page titled "Welcome to AI Interview Coach," a chat interface displaying interview questions, an input box for candidate responses (text and optional voice), and a feedback panel showing strengths, weaknesses, improvement tips, and optional scoring. Candidates can click a "Start Interview" button to begin the session, and questions can optionally be played as audio using ElevenLabs text-to-speech technology.
 
-## How can I edit this code?
+On the backend, the system consists of several agents. The Master Agent orchestrates all communication, routing messages securely between agents. The Interviewer Agent generates questions and sends them to candidates via voice or text, while forwarding their answers to the Analyzer Agent, which uses Mistral AI to evaluate responses and generate detailed feedback. The Frontend Agent interfaces with the web application, displaying feedback received from the Analyzer Agent. All agents are registered with Coral Protocol using JSON descriptors, and all communication is handled through Coral events, ensuring decoupled and secure interaction.
 
-There are several ways of editing your application.
+The system supports optional enhancements such as voice input from candidates, voice playback of feedback using ElevenLabs, scoring for each answer, and session persistence for tracking multiple interview attempts. To use the project, the user clones the repository, installs required dependencies, sets up API keys for Mistral and ElevenLabs, starts the backend agents, and opens the frontend interface. Once running, candidates can practice interviews in real time, receiving AI-powered feedback instantly.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/fe9f31fd-b5e7-446c-9d0a-416fa3b56ab5) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/fe9f31fd-b5e7-446c-9d0a-416fa3b56ab5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project demonstrates a practical application of multi-agent systems, AI reasoning, and voice synthesis, providing an engaging, interactive tool for interview preparation. It is structured for easy deployment, and its modular design allows contributors to add new features such as additional interview categories, advanced scoring, or more sophisticated voice interaction.
