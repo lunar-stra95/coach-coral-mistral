@@ -107,53 +107,43 @@ class AnalyzerAgent extends EventEmitter {
   }
 
   /**
-   * Analyze answer using Mistral AI
+   * Analyze answer using Mistral AI via Supabase Edge Function
    */
   private async analyzeWithMistral(request: AnalysisRequest): Promise<AnalysisResult> {
-    if (!this.mistralApiKey) {
-      console.warn('⚠️ Mistral API key not configured, using mock analysis');
-      return this.generateMockAnalysis(request);
-    }
-
     try {
-      const prompt = this.buildAnalysisPrompt(request);
+      console.log('🧠 Sending answer to Mistral AI for analysis');
       
-      const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      const response = await fetch('https://rrcpnywbxjmaorarlqhe.supabase.co/functions/v1/analyze-answer', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.mistralApiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: this.defaultMistralConfig.model,
-          messages: [
-            {
-              role: 'system',
-              content: this.getSystemPrompt()
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          temperature: this.defaultMistralConfig.temperature,
-          max_tokens: this.defaultMistralConfig.maxTokens,
-          top_p: this.defaultMistralConfig.topP
-        })
+          question: request.question,
+          answer: request.answer,
+          category: request.category,
+          expectedElements: request.expectedElements,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Mistral API error: ${response.statusText}`);
-      }
-
       const data = await response.json();
-      const analysisText = data.choices[0]?.message?.content;
       
-      if (!analysisText) {
-        throw new Error('No analysis content received from Mistral AI');
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to analyze answer');
       }
 
-      return this.parseAnalysisResponse(analysisText, request);
+      const analysis = data.analysis;
+      
+      // Convert to our internal format
+      return {
+        score: analysis.score,
+        strengths: analysis.strengths,
+        weaknesses: analysis.weaknesses,
+        tips: analysis.improvements,
+        detailedFeedback: analysis.overall_feedback,
+        categoryScore: analysis.score,
+        improvementAreas: analysis.improvements
+      };
       
     } catch (error) {
       console.error('❌ Mistral AI analysis failed:', error);

@@ -368,43 +368,29 @@ class InterviewerAgent extends EventEmitter {
   }
 
   /**
-   * Generate audio for question using ElevenLabs TTS
+   * Generate audio for question using ElevenLabs TTS via Supabase Edge Function
    */
   async generateQuestionAudio(questionText: string): Promise<string> {
-    if (!this.elevenLabsApiKey) {
-      console.warn('⚠️ ElevenLabs API key not configured, skipping audio generation');
-      return '';
-    }
-
     try {
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${this.defaultTTSConfig.voiceId}`, {
+      const response = await fetch('https://rrcpnywbxjmaorarlqhe.supabase.co/functions/v1/generate-speech', {
         method: 'POST',
         headers: {
-          'Accept': 'audio/mpeg',
           'Content-Type': 'application/json',
-          'xi-api-key': this.elevenLabsApiKey,
         },
         body: JSON.stringify({
           text: questionText,
-          model_id: this.defaultTTSConfig.modelId,
-          voice_settings: {
-            stability: this.defaultTTSConfig.stability,
-            similarity_boost: this.defaultTTSConfig.similarityBoost,
-          },
+          voice: this.defaultTTSConfig.voiceId,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`ElevenLabs API error: ${response.statusText}`);
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to generate speech');
       }
 
-      // In a real implementation, you'd save the audio file and return a URL
-      // For now, we'll return a placeholder URL
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      
-      console.log('🔊 Generated audio for question');
-      return audioUrl;
+      console.log('🔊 Generated audio for question via edge function');
+      return data.audioUrl;
       
     } catch (error) {
       console.error('❌ Failed to generate question audio:', error);
