@@ -22,10 +22,28 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          glow: "hsl(var(--secondary-glow))",
+        },
+        // AI Interview Coach specific colors
+        interview: {
+          bg: "hsl(var(--interview-bg))",
+          card: "hsl(var(--interview-card))",
+        },
+        question: {
+          bg: "hsl(var(--question-bg))",
+        },
+        answer: {
+          bg: "hsl(var(--answer-bg))",
+        },
+        feedback: {
+          positive: "hsl(var(--feedback-positive))",
+          warning: "hsl(var(--feedback-warning))",
+          negative: "hsl(var(--feedback-negative))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -63,6 +81,20 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        'gradient-hero': 'var(--gradient-hero)',
+        'gradient-card': 'var(--gradient-card)',
+        'gradient-interview': 'var(--gradient-interview)',
+      },
+      boxShadow: {
+        'glow': 'var(--shadow-glow)',
+        'card-custom': 'var(--shadow-card)',
+        'interview': 'var(--shadow-interview)',
+      },
+      transitionTimingFunction: {
+        'smooth': 'var(--transition-smooth)',
+        'bounce-custom': 'var(--transition-bounce)',
+      },
       keyframes: {
         "accordion-down": {
           from: {
@@ -80,10 +112,41 @@ export default {
             height: "0",
           },
         },
+        "fade-in": {
+          from: {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0px)",
+          },
+        },
+        "slide-up": {
+          from: {
+            transform: "translateY(100%)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateY(0%)",
+            opacity: "1",
+          },
+        },
+        "pulse-glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 20px hsl(210 80% 60% / 0.3)",
+          },
+          "50%": {
+            boxShadow: "0 0 40px hsl(210 80% 60% / 0.6)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-out",
+        "slide-up": "slide-up 0.4s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
     },
   },
